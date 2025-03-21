@@ -8,6 +8,7 @@ import re
 from os import environ
 from os.path import abspath, dirname, join
 from typing import Any, Callable, Tuple
+from ast import literal_eval
 
 # For reference see https://docs.netbox.dev/en/stable/configuration/
 # Based on https://github.com/netbox-community/netbox/blob/develop/netbox/netbox/configuration_example.py
@@ -57,7 +58,7 @@ _BASE_DIR = dirname(dirname(abspath(__file__)))
 # access to the server via any other hostnames. The first FQDN in the list will be treated as the preferred name.
 #
 # Example: ALLOWED_HOSTS = ['netbox.example.com', 'netbox.internal.local']
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(' ')
+ALLOWED_HOSTS = literal_eval(environ.get('ALLOWED_HOSTS', '*'))
 # ensure that '*' or 'localhost' is always in ALLOWED_HOSTS (needed for health checks)
 if '*' not in ALLOWED_HOSTS and 'localhost' not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append('localhost')
